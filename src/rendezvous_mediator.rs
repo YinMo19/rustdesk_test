@@ -10,20 +10,7 @@ use std::{
 use uuid::Uuid;
 
 use hbb_common::{
-    allow_err,
-    anyhow::{self, bail},
-    config::{self, keys::*, option2bool, Config, CONNECT_TIMEOUT, REG_INTERVAL, RENDEZVOUS_PORT},
-    futures::future::join_all,
-    log,
-    protobuf::Message as _,
-    proxy::Proxy,
-    rendezvous_proto::*,
-    sleep,
-    socket_client::{self, connect_tcp, is_ipv4},
-    tcp::FramedStream,
-    tokio::{self, select, sync::Mutex, time::interval},
-    udp::FramedSocket,
-    AddrMangle, IntoTargetAddr, ResultType, TargetAddr,
+    allow_err, anyhow::{self, bail}, config::{self, keys::*, option2bool, Config, CONNECT_TIMEOUT, REG_INTERVAL, RENDEZVOUS_PORT}, futures::future::join_all, log, protobuf::Message as _, proxy::Proxy, rendezvous_proto::*, sleep, socket_client::{self, connect_tcp, is_ipv4}, tcp::FramedStream, tokio::{self, select, sync::Mutex, time::interval}, udp::FramedSocket, AddrMangle, IntoTargetAddr, ResultType, Stream, TargetAddr
 };
 
 use crate::{
@@ -688,7 +675,7 @@ async fn direct_server(server: ServerPtr) {
                     allow_err!(
                         crate::server::create_tcp_connection(
                             server,
-                            hbb_common::Stream::from(stream, local_addr),
+                            hbb_common::Stream::from(stream, local_addr).await,
                             addr,
                             false,
                         )
@@ -706,7 +693,7 @@ async fn direct_server(server: ServerPtr) {
 
 enum Sink<'a> {
     Framed(&'a mut FramedSocket, &'a TargetAddr<'a>),
-    Stream(&'a mut FramedStream),
+    Stream(&'a mut Stream),
 }
 
 impl Sink<'_> {

@@ -3558,7 +3558,7 @@ pub mod peer_online {
         sleep,
         socket_client::connect_tcp,
         tcp::FramedStream,
-        ResultType,
+        ResultType, Stream,
     };
 
     pub async fn query_online_states<F: FnOnce(Vec<String>, Vec<String>)>(ids: Vec<String>, f: F) {
@@ -3581,7 +3581,7 @@ pub mod peer_online {
         }
     }
 
-    async fn create_online_stream() -> ResultType<FramedStream> {
+    async fn create_online_stream() -> ResultType<Stream> {
         let (rendezvous_server, _servers, _contained) =
             crate::get_rendezvous_server(READ_TIMEOUT).await;
         let tmp: Vec<&str> = rendezvous_server.split(":").collect();

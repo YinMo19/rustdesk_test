@@ -217,5 +217,5 @@ strip = true
 rpath = true
 
 [profile.dev]
-split-debuginfo = '...'  # Platform-specific.
-#strip = "debuginfo" 
+# split-debuginfo = '...'  # Platform-specific.
+#strip = "debuginfo"

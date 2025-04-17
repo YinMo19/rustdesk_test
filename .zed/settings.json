@@ -1,0 +1,14 @@
+{
+    "lsp": {
+        "yaml-language-server": {
+            "settings": {
+                "yaml": {
+                    "schemaStore": {
+                        "enable": false
+                    }
+                }
+            }
+        }
+    },
+    "format_on_save": "off"
+}
