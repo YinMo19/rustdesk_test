@@ -675,7 +675,7 @@ async fn direct_server(server: ServerPtr) {
                     allow_err!(
                         crate::server::create_tcp_connection(
                             server,
-                            hbb_common::Stream::from(stream, local_addr).await,
+                            hbb_common::Stream::Tcp(FramedStream::from(stream, addr)),
                             addr,
                             false,
                         )

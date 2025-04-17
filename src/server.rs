@@ -160,7 +160,13 @@ async fn accept_connection_(server: ServerPtr, socket: Stream, secure: bool) -> 
     if let Ok((stream, addr)) = timeout(CONNECT_TIMEOUT, listener.accept()).await? {
         stream.set_nodelay(true).ok();
         let stream_addr = stream.local_addr()?;
-        create_tcp_connection(server, Stream::from(stream, stream_addr).await, addr, secure).await?;
+        create_tcp_connection(
+            server,
+            hbb_common::Stream::Tcp(hbb_common::tcp::FramedStream::from(stream, stream_addr)),
+            addr,
+            secure,
+        )
+        .await?;
     }
     Ok(())
 }

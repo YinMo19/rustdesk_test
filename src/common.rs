@@ -21,7 +21,7 @@ use hbb_common::{
     rendezvous_proto::*,
     socket_client,
     sodiumoxide::crypto::{box_, secretbox, sign},
-    tcp::FramedStream,
+    // tcp::FramedStream,
     timeout,
     tokio::{
         self,
